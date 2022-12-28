@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="9ef28847-f123-465a-add0-c193c174860f" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="d7dac884-a73e-4bb9-93ff-3be5e6ebaab1" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="Root" database="Emp_data" />
+	</db:config>
+	<flow name="ci-cdFlow" doc:id="a9d7fda3-8a75-4ca7-ba49-4b071adc06d6" >
+		<http:listener doc:name="Listener" doc:id="85bf729b-b91b-4eab-99ed-bd2bc87cbae7" config-ref="HTTP_Listener_config" path="/demo"/>
+		<set-payload value='"This is first code in ci/cd"' doc:name="Set Payload" doc:id="0ebcdaba-5eff-48e0-aff3-792287da7488" />
+		<ee:transform doc:name="Transform Message" doc:id="83ddf685-741c-4b1a-9c73-9b07db8e4cb3">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="2c675a5d-81e3-43b1-b41f-9357a4eb823e" message="#[payload]" />
+	</flow>
+</mule>
