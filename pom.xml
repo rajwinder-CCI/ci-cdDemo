@@ -58,9 +58,9 @@
 
 						<muleVersion>${app.runtime}</muleVersion>
 
-						<username>Rajwinder_cci</username>
+						<username>${username}</username>
 
-						<password>R@jwinder318</password>
+						<password>${password}</password>
 
 						<applicationName>ci-cd</applicationName>
 
